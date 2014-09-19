@@ -1,0 +1,15 @@
+-- INSTALL --
+sudo npm install -g cordova
+
+-- CREATE PROJECT --
+cordova create jidou com.jidou.jidou Main
+cd jidou
+cordova platform add android
+
+-- BUILD --
+cordova build
+
+-- RUN --
+cordova run android
+
+

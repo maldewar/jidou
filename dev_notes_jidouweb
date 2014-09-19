@@ -1,0 +1,63 @@
+-- INSTALL --
+composer global require "laravel/installer=~1.1"
+
+-- CREATE PROJECT --
+composer create-project laravel/laravel jidou --prefer-dist
+
+# Grant Permission to app/storage
+sudo chmod 777 -R app/storage
+
+# Configure apache virtualserver
+
+-- ADD GENERATORS --
+# URL: https://github.com/wdollar/Laravel-4-Generators-Bootstrap-3
+# add to composer.json
+  "require-dev": {
+    "dollar/generators": "dev-master"
+  }
+# add to providers in app/config/app.conf
+'Dollar\Generators\GeneratorsServiceProvider',
+
+composer update --dev
+
+-- ADD IMAGINE --
+# URL: http://packalyst.com/packages/package/orchestra/imagine
+# add to require in composer.json
+"orchestra/imagine": "3.0.*@dev"
+# add class load to composer.json
+"app/services",
+"app/facades",
+# add to providers in app/config/app.conf
+'Orchestra\Imagine\ImagineServiceProvider',
+# add to aliases in app/config/app.conf
+'Imagine' => 'Orchestra\Imagine\Facade',
+'Image'   => 'App\Facades\ImageFacade',
+# create Image Facade Class at app/facades/ImageFacade.php
+# create Image Service Class at app/services/Image.php
+# create app/config/image.php
+
+composer update
+
+-- DATABASE --
+# Create database
+# Setup database at app/config/database.php
+
+-- CREATE MODELS --
+# PRODUCT Model, Controllers, Views. URL: http://laravel.com/docs/schema#adding-columns
+php artisan generate:scaffold product --fields="sku:string(20), title:string(120), desc:text, price:float, slogan:text, meta:text"
+# Modify if neccesary table definition app/database/migrations/create_products_table.php
+php artisan migrate
+
+# TERMINAL Model, Controllers, Views. URL: http://laravel.com/docs/schema#adding-columns
+php artisan generate:scaffold terminal --fields="name:string(20), latitude:float, longitude:float, company_id:integer, type:tinyInteger"
+# Modify if neccesary table definition app/database/migrations/create_terminals_table.php
+php artisan migrate
+
+# STOCK Model, Controllers, Views. URL: http://laravel.com/docs/schema#adding-columns
+php artisan generate:scaffold stock --fields="terminal_id:integer, product_id:integer, price_override:boolean, price:float, order:integer, promo_type:tinyInteger, promo_id:integer, related_stock:string(120), ad_id:integer, quantity:integer, hw_id:integer"
+# Modify if neccesary table definition app/database/migrations/create_stocks_table.php
+php artisan migrate
+
+-- RESTFUL CONTROLLER --
+php artisan controller:make ProductController
+# JSON responses URL: http://laravel.com/docs/responses
