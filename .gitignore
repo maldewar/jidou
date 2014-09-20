@@ -1,2 +1,4 @@
 *.sw*
 pkg
+jidouweb/public/uploads
+jidouweb/public/www
