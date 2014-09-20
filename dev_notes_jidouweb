@@ -47,6 +47,7 @@ composer update
 php artisan generate:scaffold product --fields="sku:string(20), title:string(120), desc:text, price:float, slogan:text, meta:text"
 # Modify if neccesary table definition app/database/migrations/create_products_table.php
 php artisan migrate
+ALTER TABLE products ADD image_orientation TINYINT NOT NULL DEFAULT 0 AFTER meta;
 
 # TERMINAL Model, Controllers, Views. URL: http://laravel.com/docs/schema#adding-columns
 php artisan generate:scaffold terminal --fields="name:string(20), latitude:float, longitude:float, company_id:integer, type:tinyInteger"
@@ -61,3 +62,6 @@ php artisan migrate
 -- RESTFUL CONTROLLER --
 php artisan controller:make ProductController
 # JSON responses URL: http://laravel.com/docs/responses
+php artisan controller:make ProductController
+php artisan controller:make TerminalController
+

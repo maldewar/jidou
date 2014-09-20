@@ -32,8 +32,20 @@ class StocksController extends BaseController {
 	 * @return Response
 	 */
 	public function create()
-	{
-		return View::make('stocks.create');
+  {
+    $terminals = Terminal::all();
+    $arrTerminals = array();
+    foreach($terminals as $terminal) {
+      $arrTerminals[$terminal->id] = $terminal->name;
+    }
+    $productss = Product::all();
+    $arrProducts = array();
+    foreach($productss as $products) {
+      $arrProducts[$products->id] = $products->title;
+    }
+    return View::make('stocks.create', array('terminals_selector' => $arrTerminals,
+                                              'products_selector' => $arrProducts,
+                                              'promo_type_selector' => Promo::getTypes()));
 	}
 
 	/**
@@ -85,9 +97,20 @@ class StocksController extends BaseController {
 		if (is_null($stock))
 		{
 			return Redirect::route('stocks.index');
-		}
-
-		return View::make('stocks.edit', compact('stock'));
+    }
+    $terminals = Terminal::all();
+    $arrTerminals = array();
+    foreach($terminals as $terminal) {
+      $arrTerminals[$terminal->id] = $terminal->name;
+    }
+    $productss = Product::all();
+    $arrProducts = array();
+    foreach($productss as $products) {
+      $arrProducts[$products->id] = $products->title;
+    }
+		return View::make('stocks.edit', compact('stock'), array('terminals_selector' => $arrTerminals,
+                                              'products_selector' => $arrProducts,
+                                              'promo_type_selector' => Promo::getTypes()));
 	}
 
 	/**

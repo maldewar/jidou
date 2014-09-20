@@ -21,14 +21,14 @@
         <div class="form-group">
             {{ Form::label('terminal_id', 'Terminal_id:', array('class'=>'col-md-2 control-label')) }}
             <div class="col-sm-10">
-              {{ Form::input('number', 'terminal_id', Input::old('terminal_id'), array('class'=>'form-control')) }}
+              {{Form::select('terminal_id', $terminals_selector, Input::old('terminal_id'), array('class'=>'form-control'))}}
             </div>
         </div>
 
         <div class="form-group">
             {{ Form::label('product_id', 'Product_id:', array('class'=>'col-md-2 control-label')) }}
             <div class="col-sm-10">
-              {{ Form::input('number', 'product_id', Input::old('product_id'), array('class'=>'form-control')) }}
+              {{Form::select('product_id', $products_selector, Input::old('product_id'), array('class'=>'form-control'))}}
             </div>
         </div>
 
@@ -56,7 +56,7 @@
         <div class="form-group">
             {{ Form::label('promo_type', 'Promo_type:', array('class'=>'col-md-2 control-label')) }}
             <div class="col-sm-10">
-              {{ Form::text('promo_type', Input::old('promo_type'), array('class'=>'form-control', 'placeholder'=>'Promo_type')) }}
+              {{Form::select('promo_type', $promo_type_selector, Input::old('promo_type'), array('class'=>'form-control'))}}
             </div>
         </div>
 

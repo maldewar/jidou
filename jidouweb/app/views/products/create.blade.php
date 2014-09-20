@@ -47,6 +47,13 @@
         </div>
 
         <div class="form-group">
+            {{ Form::label('image_orientation', 'Image Orientation:', array('class'=>'col-md-2 control-label')) }}
+            <div class="col-sm-10">
+              {{Form::select('image_orientation', Product::$orientations , Input::old('image_orientation'), array('class'=>'form-control'))}}
+            </div>
+        </div>
+
+        <div class="form-group">
           {{ Form::label('image', 'Image:', array('class'=>'col-md-2 control-label')) }}
           <div class="col-sm-10">
             <span class="btn btn-default btn-file">

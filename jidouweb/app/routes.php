@@ -26,3 +26,5 @@ Route::resource('stocks', 'StocksController');
 
 /* API */
 Route::resource('product', 'ProductController');
+
+Route::resource('terminal', 'TerminalController');

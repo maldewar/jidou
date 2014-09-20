@@ -5,11 +5,15 @@ sudo npm install -g cordova
 cordova create jidou com.jidou.jidou Main
 cd jidou
 cordova platform add android
+cordova platform add ios
 
 -- BUILD --
-cordova build
+cordova build android
+cordova build ios
 
 -- RUN --
 cordova run android
+cordova run ios
 
-
+-- JQUERY MOBILE DOCS --
+http://demos.jquerymobile.com/1.3.2/widgets/dialog/
