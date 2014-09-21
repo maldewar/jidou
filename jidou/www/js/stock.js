@@ -3,7 +3,7 @@ IOV.stock = {};
 IOV.loadStock = function (data) {
   IOV.stock = data.stock;
   IOV.timestamp = data.timestamp;
-  IOV.timestampDiff = parseInt(Date.now()/1000) - IOV.timestamp;
+  IOV.max = parseInt(data.max);
   if (typeof data['stock'] != 'undefined') {
     $('.' + IOV.clazz.gridProduct, IOV.obj.grid).remove();
     var totalProducts;
@@ -24,6 +24,7 @@ IOV.loadStock = function (data) {
       //$('body').append(gridProduct);
       //alert(data.stock[stockId].id);
     }
+    setInterval(IOV.getMessages,1000);
     //Set grid size
     //$('.' + IOV.clazz.gridProduct, IOV.obj.grid).addClass(IOV.clazz.grid2);
     IOV.obj.grid.addClass(IOV.clazz.grid2);

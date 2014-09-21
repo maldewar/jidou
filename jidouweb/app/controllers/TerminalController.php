@@ -50,6 +50,12 @@ class TerminalController extends \BaseController {
     $terminal['config'] = $terminal_config;
     $terminal['stock'] = Stock::getStock($id);
     $terminal['timestamp'] = time();
+    $max = DB::table('terminal_events')
+                     ->select(DB::raw('max(id) as max'))
+                     ->where('terminal_id', '=', $id)
+                     ->get();
+    $max = intval($max[0]->max);
+    $terminal['max'] = $max;
     if (isset($_GET['_callback'])) {
       return Response::json($terminal)->setCallback($_GET['_callback']);
     } else {
@@ -62,18 +68,20 @@ class TerminalController extends \BaseController {
     $messages = DB::table('terminal_events')
       ->select('terminal_id',
         'event',
-        'value',
-        'ts')
-      //->where('terminal_id', '=', $id)
-      //->where('ts', '>', 'FROM_UNIXTIME('.$ts.')')->get();
-      ->where('ts', '>', '\''. date('Y-m-d H:i:s', $ts) . '\'')->get();
-    var_dump(date('Y-m-d H:i:s', $ts));
+        'value')
+      ->where('terminal_id', '=', $id)
+      ->where('id', '>', $ts)->get();
     $arrResult = array();
     $arrResult['now'] = time();
+    $max = DB::table('terminal_events')
+                     ->select(DB::raw('max(id) as max'))
+                     ->where('terminal_id', '=', $id)
+                     ->get();
+    $max = intval($max[0]->max);
     $arrResult['param'] = $ts;
     $arrResult['messages'] = array();
+    $arrResult['max'] = $max;
     foreach($messages as $message) {
-      $message->ts = strtotime($message->ts);
       $arrResult['messages'][] = $message;
     }
 

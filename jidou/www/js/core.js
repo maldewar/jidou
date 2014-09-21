@@ -39,7 +39,8 @@ IOV = {
     'total': 0
   },
   'timestamp': 0,
-  'timestampDiff':0
+  'timestampDiff':0,
+  'max':0
 };
 
 IOV.getUrl = function(url) {
@@ -98,7 +99,7 @@ IOV.getMessages = function(opts) {
   IOV.obj['tpl'] = $('#'+IOV.id.tpl);
   IOV.obj['grid'] = $('#' + IOV.id.grid);
   IOV.obj['gridProduct'] = $('.' + IOV.clazz.gridProduct, IOV.obj.tpl);
-  var ts = IOV.timestamp;
+  var ts = IOV.max;
   IOV.core.requestJSONP(IOV.getUrl('/terminal/'+IOV.ctrl.terminal_id+'/messages/'+ts), {}, {
     success: IOV.messagesReceived,
     error: IOV.core.requestCallbackError //TODO: try to load again.
@@ -106,9 +107,20 @@ IOV.getMessages = function(opts) {
 };
 
 IOV.messagesReceived = function(data) {
-  IOV.timestamp = data.now;
+  IOV.max = data.max;
   for (var eventid in data.messages) {
     var message = data.messages[eventid];
-    //alert(message.ts);
+    IOV.processMessage(message);
+  }
+};
+
+IOV.processMessage = function(message) {
+  var eventType = parseInt(message.event);
+  var eventValue = parseInt(message.value);
+  if(eventType == 1) {
+    //ADD COIN
+    IOV.addCredit(eventValue);
+  } else if ( eventType == 2) {
+    //DISPENSE
   }
 };
