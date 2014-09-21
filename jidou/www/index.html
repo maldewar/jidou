@@ -24,27 +24,58 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/mobile.custom.css" />
         <!--link rel="stylesheet" type="text/css" href="css/index.css" /-->
         <meta name="msapplication-tap-highlight" content="no" />
         <title>Hello World</title>
     </head>
     <body>
         <div class="app" data-role="page">
-            <h1>Apache Cordova</h1>
+            <!--h1>Apache Cordova</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
             </div>
             <div>
               <a href="product.view.html" data-rel="dialog" data-transition="flip">Open Product Dialog</a>
+            </div-->
+            <div data-role="panel" id="cartPanel" data-display="reveal" data-dismissible="false">
+              <div class="credit">Crédito: $<span class="creditValue"></span></div>
+              <div class="total">Total: $<span class="totalValue"></span></div>
+              <div class="cardButtons">
+                <div class="ui-grid-solo">
+                  <button id="btnBuy" class="ui-btn ui-btn-active">Comprar</button>
+                </div>
+                <div class="ui-grid-solo">
+                  <button id="btnCancel" class="ui-btn">Cancelar</button>
+                </div>
+              </div>
             </div>
+            <div data-role="content">
+              <div id="grid">
+              </div>
+          </div>
+        </div>
+        <div id="tpl" style="display:none;">
+          <div class="grid-product">
+            <div class="grid-product-image-container">
+              <img src="" class="grid-product-image"/>
+            </div>
+            <div>
+              $<span class="grid-product-price"></span>
+            </div>
+          </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.4.js"></script>
+        <script type="text/javascript" src="js/mobile.custom.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/core.js"></script>
+        <script type="text/javascript" src="js/stock.js"></script>
         <script type="text/javascript">
             app.initialize();
+            IOV.start({});
         </script>
     </body>
 </html>

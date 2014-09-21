@@ -65,3 +65,9 @@ php artisan controller:make ProductController
 php artisan controller:make ProductController
 php artisan controller:make TerminalController
 
+-- DATABASE --
+CREATE TABLE terminal_events (
+`terminal_id` int NOT NULL,
+`event` tinyint NOT NULL DEFAULT 0,
+`value` int NOT NULL,
+`ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP);

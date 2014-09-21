@@ -12,7 +12,20 @@ class ProductsController extends BaseController {
 	public function __construct(Product $product)
 	{
 		$this->product = $product;
-	}
+  }
+
+  /**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+  public function view($id)
+  {
+    $product = $this->product->findOrFail($id);
+    return View::make('products.view', compact('product'));
+  }
+
 
 	/**
 	 * Display a listing of the resource.

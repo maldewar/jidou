@@ -36,6 +36,7 @@ class Stock extends Eloquent {
         'stocks.ad_id')
       ->where('stocks.terminal_id', '=', $terminal_id)
       ->orderBy('stocks.order')->get();
+    $arrResult = array();
     foreach($terminal_stock as $stock) {
       $stock->images = array();
       $stock->images['smallThumb'] = Product::getImage($stock->id, '');
@@ -44,7 +45,8 @@ class Stock extends Eloquent {
       $stock->images['largePortrait'] = Product::getImage($stock->id, 'largeV');
       $stock->images['landscape'] = Product::getImage($stock->id, 'h');
       $stock->images['largeLandscape'] = Product::getImage($stock->id, 'largeH');
+      $arrResult[$stock->id] = $stock;
     }
-    return $terminal_stock;
+    return $arrResult;
   }
 }

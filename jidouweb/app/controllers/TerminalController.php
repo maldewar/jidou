@@ -49,8 +49,40 @@ class TerminalController extends \BaseController {
     $terminal_config['urls']['dispense'] = Config::get('jidou.hw_dispense_url');
     $terminal['config'] = $terminal_config;
     $terminal['stock'] = Stock::getStock($id);
-    return Response::json($terminal);
-	}
+    $terminal['timestamp'] = time();
+    if (isset($_GET['_callback'])) {
+      return Response::json($terminal)->setCallback($_GET['_callback']);
+    } else {
+      return Response::json($terminal);
+    }
+  }
+
+  public function messages($id, $ts)
+  {
+    $messages = DB::table('terminal_events')
+      ->select('terminal_id',
+        'event',
+        'value',
+        'ts')
+      //->where('terminal_id', '=', $id)
+      //->where('ts', '>', 'FROM_UNIXTIME('.$ts.')')->get();
+      ->where('ts', '>', '\''. date('Y-m-d H:i:s', $ts) . '\'')->get();
+    var_dump(date('Y-m-d H:i:s', $ts));
+    $arrResult = array();
+    $arrResult['now'] = time();
+    $arrResult['param'] = $ts;
+    $arrResult['messages'] = array();
+    foreach($messages as $message) {
+      $message->ts = strtotime($message->ts);
+      $arrResult['messages'][] = $message;
+    }
+
+    if (isset($_GET['_callback'])) {
+      return Response::json($arrResult)->setCallback($_GET['_callback']);
+    } else {
+      return Response::json($arrResult);
+    }
+  }
 
 
 	/**

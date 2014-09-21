@@ -17,7 +17,7 @@ Route::get('/', function()
 });
 
 /* Admin */
-
+Route::get('products/view/{id}', 'ProductsController@view');
 Route::resource('products', 'ProductsController');
 
 Route::resource('terminals', 'TerminalsController');
@@ -27,7 +27,8 @@ Route::resource('stocks', 'StocksController');
 /* API */
 Route::resource('product', 'ProductController');
 
+Route::get('terminal/{id}/messages/{ts}', 'TerminalController@messages');
 Route::resource('terminal', 'TerminalController');
 
 Route::get('hw/creditAdded', 'HwController@creditAdded');
-Route::get('hw/DispenseDone', 'HwController@dispenseDone');
+Route::get('hw/dispenseDone', 'HwController@dispenseDone');
