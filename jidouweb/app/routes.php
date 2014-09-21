@@ -28,3 +28,6 @@ Route::resource('stocks', 'StocksController');
 Route::resource('product', 'ProductController');
 
 Route::resource('terminal', 'TerminalController');
+
+Route::get('hw/creditAdded', 'HwController@creditAdded');
+Route::get('hw/DispenseDone', 'HwController@dispenseDone');
