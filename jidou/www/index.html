@@ -31,19 +31,13 @@
     </head>
     <body>
         <div class="app" data-role="page" data-dom-cache="false">
-            <!--h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-            <div>
-              <a href="product.view.html" data-rel="dialog" data-transition="flip">Open Product Dialog</a>
-            </div-->
             <div data-role="panel" id="cartPanel" data-display="reveal" data-dismissible="false">
               <div class="credit">Crédito: $<span class="creditValue"></span></div>
               <div class="total">Total: $<span class="totalValue"></span></div>
               <div id="robo-vendi" style="display:none;">
                 <img src="img/robo_vendi.gif"/>
+              </div>
+              <div id="cartList">
               </div>
               <div class="cardButtons">
                 <div class="ui-grid-solo">
@@ -60,10 +54,14 @@
           </div>
         </div>
         <div id="tpl" style="display:none;">
+          <div class="cartItem">
+            <span class="grid-product-title"></span>
+          </div>
           <div class="grid-product">
             <div class="grid-product-image-container">
               <img src="" class="grid-product-image"/>
             </div>
+            <div class="grid-product-title"></div>
             <h2>
               $<span class="grid-product-price"></span>
             </h2>

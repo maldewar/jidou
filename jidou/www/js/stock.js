@@ -6,16 +6,19 @@ IOV.loadStock = function (data) {
   IOV.max = parseInt(data.max);
   if (typeof data['stock'] != 'undefined') {
     $('.' + IOV.clazz.gridProduct, IOV.obj.grid).remove();
-    var totalProducts;
+    var totalProducts = 0;
     for (var stockId in data.stock) {
       var gridProduct = IOV.obj.gridProduct.clone();
       var stock = data.stock[stockId];
       if (parseInt(stock.image_orientation) == 0) {
-        $('.' + IOV.clazz.gridProductImage, gridProduct).attr('src', stock.images.landscape);
+        $('.' + IOV.clazz.gridProductImage, gridProduct)
+          .attr('src', stock.images.landscape)
+          .css('padding-top','100px');
       } else {
         $('.' + IOV.clazz.gridProductImage, gridProduct).attr('src', stock.images.portrait);
       }
       $('.' + IOV.clazz.gridProductPrice, gridProduct).text(stock.price);
+      $('.' + IOV.clazz.gridProductTitle, gridProduct).text(stock.title);
       gridProduct.data('iov', stock)
                  .click(IOV.viewProductTouch);
       IOV.obj.grid.append(gridProduct);
@@ -37,6 +40,9 @@ IOV.loadStock = function (data) {
         gridBlockTemp = 0;
       }
     });
+    if (totalProducts == 2) {
+      IOV.obj.grid.css('margin-top', '5%');
+    }
 
     $('#btnCancel').click(IOV.cancelCart);
     $('#btnBuy').click(IOV.checkout);
@@ -80,6 +86,7 @@ IOV.populateDialogProduct = function() {
 
 IOV.addToCart = function() {
   $.mobile.back();
+  IOV.hasAd = false;
   var stock = IOV.current.product;
   if (typeof IOV.current.cart == 'undefined') {
     IOV.current.cart = [];
@@ -87,6 +94,9 @@ IOV.addToCart = function() {
   }
   IOV.current.total += parseFloat(stock.price);
   IOV.updateCart();
+  var cartItem = $('.cartItem', '#tpl').clone();
+  $('.grid-product-title', cartItem).text(stock.title);
+  $('#cartList').append(cartItem);
   IOV.current.cart.push(stock);
 };
 
@@ -95,6 +105,7 @@ IOV.cancelCart = function() {
   IOV.closeCart();
   IOV.current.total = 0;
   IOV.current.credit = 0;
+  $('.cartItem','#cartList').remove();
   IOV.updateCart();
 }
 
@@ -111,10 +122,10 @@ IOV.updateCart = function() {
   }
   $('.creditValue', cartPanel).text(IOV.current.credit);
   $('.totalValue', cartPanel).text(IOV.current.total);
-  if (IOV.current.credit > IOV.current.total) {
-    $('#btnBuy', cartPanel).removeClass('ui-disabled');
+  if (IOV.current.credit >= IOV.current.total) {
+    $('#btnBuy', cartPanel).removeAttr('disabled').removeClass('ui-disabled');
   } else {
-    $('#btnBuy', cartPanel).addClass('ui-disabled');
+    $('#btnBuy', cartPanel).attr('disabled','disabled').addClass('ui-disabled');
   }
 };
 
@@ -123,6 +134,7 @@ IOV.checkout = function() {
     $('#btnBuy').attr('disabled','disabled');
     IOV.dispensing = true;
     $('#robo-vendi').show();
+    setTimeout(IOV.showAd, 1000);
     var toDispense = IOV.current.cart.pop();
     $.ajax({
       url: IOV.urls.hwDispense + '?p=' + toDispense.hw_id
@@ -140,4 +152,13 @@ IOV.checkout = function() {
 
 IOV.onCheckout = function(productId) {
   IOV.checkout();
+}
+
+IOV.showAd = function() {
+  if (!IOV.hasAd) {
+    $.mobile.changePage('ad.html',{
+      role: 'dialog',
+      transition: 'slideup'
+    });
+  }
 }

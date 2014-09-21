@@ -45,3 +45,8 @@ a {
   bottom: 285px;
   left: 56px;
 }
+
+#cartList {
+  top: 70px;
+  position: absolute;
+}

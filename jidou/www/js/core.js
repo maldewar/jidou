@@ -41,7 +41,8 @@ IOV = {
   'timestamp': 0,
   'timestampDiff':0,
   'max':0,
-  'dispensing': false
+  'dispensing': false,
+  'hasAd': false
 };
 
 IOV.getUrl = function(url) {
