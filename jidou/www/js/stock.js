@@ -27,13 +27,27 @@ IOV.loadStock = function (data) {
     setInterval(IOV.getMessages,1000);
     //Set grid size
     //$('.' + IOV.clazz.gridProduct, IOV.obj.grid).addClass(IOV.clazz.grid2);
+    totalGridBlocks = 2;
+    gridBlockTemp = 0;
     IOV.obj.grid.addClass(IOV.clazz.grid2);
+    $('.grid-product', IOV.obj.grid).each(function(){
+      $(this).addClass(IOV.clazz.gridBlocks[gridBlockTemp]);
+      gridBlockTemp++;
+      if (gridBlockTemp >= totalGridBlocks) {
+        gridBlockTemp = 0;
+      }
+    });
+
+    $('#btnCancel').click(IOV.cancelCart);
+    $('#btnBuy').click(IOV.checkout);
   }
 };
 
 IOV.viewProductTouch = function () {
-  var stock = $(this).data('iov');
-  IOV.viewProduct(stock);
+  if (!IOV.dispensing) {
+    var stock = $(this).data('iov');
+    IOV.viewProduct(stock);
+  }
 };
 
 IOV.viewProduct = function (stock) {
@@ -73,10 +87,16 @@ IOV.addToCart = function() {
   }
   IOV.current.total += parseFloat(stock.price);
   IOV.updateCart();
-  $.ajax({
-    url: IOV.urls.hwDispense
-  });
+  IOV.current.cart.push(stock);
 };
+
+IOV.cancelCart = function() {
+  IOV.current.cart = undefined;
+  IOV.closeCart();
+  IOV.current.total = 0;
+  IOV.current.credit = 0;
+  IOV.updateCart();
+}
 
 IOV.addCredit = function(credit) {
   credit = parseFloat(credit);
@@ -98,9 +118,26 @@ IOV.updateCart = function() {
   }
 };
 
+IOV.checkout = function() {
+  if (IOV.current.cart.length > 0) {
+    $('#btnBuy').attr('disabled','disabled');
+    IOV.dispensing = true;
+    $('#robo-vendi').show();
+    var toDispense = IOV.current.cart.pop();
+    $.ajax({
+      url: IOV.urls.hwDispense + '?p=' + toDispense.hw_id
+    });
+  } else {
+    IOV.cancelCart();
+    $('#robo-vendi').hide();
+    IOV.dispensing = false;
+    $.mobile.changePage('thanks.html',{
+      role: 'dialog',
+      transition: 'flip'
+    });
+  }
+}
 
-
-
-
-
-
+IOV.onCheckout = function(productId) {
+  IOV.checkout();
+}

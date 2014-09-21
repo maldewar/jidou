@@ -30,7 +30,7 @@
         <title>Hello World</title>
     </head>
     <body>
-        <div class="app" data-role="page">
+        <div class="app" data-role="page" data-dom-cache="false">
             <!--h1>Apache Cordova</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
@@ -42,6 +42,9 @@
             <div data-role="panel" id="cartPanel" data-display="reveal" data-dismissible="false">
               <div class="credit">Crédito: $<span class="creditValue"></span></div>
               <div class="total">Total: $<span class="totalValue"></span></div>
+              <div id="robo-vendi" style="display:none;">
+                <img src="img/robo_vendi.gif"/>
+              </div>
               <div class="cardButtons">
                 <div class="ui-grid-solo">
                   <button id="btnBuy" class="ui-btn ui-btn-active">Comprar</button>
@@ -61,9 +64,9 @@
             <div class="grid-product-image-container">
               <img src="" class="grid-product-image"/>
             </div>
-            <div>
+            <h2>
               $<span class="grid-product-price"></span>
-            </div>
+            </h2>
           </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>

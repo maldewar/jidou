@@ -25,12 +25,12 @@ IOV = {
   },
   'ctrl': {
     'terminal_id': 1,
-    'domain': '192.168.20.113'
+    'domain': '54.197.243.95'
   },
   'urls': {
     'terminal': '/terminal/',
     'viewProduct': 'productview.html',
-    'hwDispense': 'https://agent.electricimp.com/DOmHZp4Mv6vw?p=1'
+    'hwDispense': 'https://agent.electricimp.com/DOmHZp4Mv6vw'
   },
   'current': {
     'product': undefined,
@@ -40,7 +40,8 @@ IOV = {
   },
   'timestamp': 0,
   'timestampDiff':0,
-  'max':0
+  'max':0,
+  'dispensing': false
 };
 
 IOV.getUrl = function(url) {
@@ -77,6 +78,12 @@ IOV.core = {
 };
 
 IOV.start = function(opts) {
+  var terminalId = parseInt(getParameterByName('id'));
+  if (terminalId == 0 || isNaN(terminalId)) {
+    terminalId = 1;
+  }
+  IOV.ctrl.terminal_id = terminalId;
+  
   IOV.obj['tpl'] = $('#'+IOV.id.tpl);
   IOV.obj['grid'] = $('#' + IOV.id.grid);
   IOV.obj['gridProduct'] = $('.' + IOV.clazz.gridProduct, IOV.obj.tpl);
@@ -122,5 +129,13 @@ IOV.processMessage = function(message) {
     IOV.addCredit(eventValue);
   } else if ( eventType == 2) {
     //DISPENSE
+    IOV.onCheckout(eventValue);
   }
 };
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}

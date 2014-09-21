@@ -35,3 +35,13 @@ a {
   bottom: 77px;
   width: 86%;
 }
+
+.grid-product {
+  text-align: center;
+}
+
+#robo-vendi {
+  position:absolute;
+  bottom: 285px;
+  left: 56px;
+}

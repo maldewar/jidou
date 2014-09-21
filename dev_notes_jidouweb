@@ -59,6 +59,8 @@ php artisan generate:scaffold stock --fields="terminal_id:integer, product_id:in
 # Modify if neccesary table definition app/database/migrations/create_stocks_table.php
 php artisan migrate
 
+
+
 -- RESTFUL CONTROLLER --
 php artisan controller:make ProductController
 # JSON responses URL: http://laravel.com/docs/responses
@@ -66,8 +68,9 @@ php artisan controller:make ProductController
 php artisan controller:make TerminalController
 
 -- DATABASE --
-CREATE TABLE terminal_events (
-`terminal_id` int NOT NULL,
-`event` tinyint NOT NULL DEFAULT 0,
-`value` int NOT NULL,
-`ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS terminal_events (
+id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+terminal_id INT(10) UNSIGNED NOT NULL,
+event INT(10) UNSIGNED NOT NULL,
+value INT(10) UNSIGNED NOT NULL,
+PRIMARY KEY (id))ENGINE = MYISAM;
